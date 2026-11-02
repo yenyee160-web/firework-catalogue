@@ -33,11 +33,10 @@ def test_unavailable_is_disabled(page, base_url):
 
 @pytest.mark.nonprod
 def test_whatsapp_is_prepared_but_never_sent(page, base_url):
+    page.add_init_script("window.__openedWhatsApp = null; window.open = url => { window.__openedWhatsApp = url; return null; };")
     page.goto(base_url)
     page.get_by_test_id("add-golden-spark").click()
-    with page.expect_popup() as popup:
-        page.get_by_role("button", name=re.compile("Prepare WhatsApp")).click()
-    outbound = popup.value
-    assert outbound.url.startswith("https://wa.me/")
-    # No user action sends a message, and tests do not submit anything on WhatsApp.
-    outbound.close()
+    page.get_by_role("button", name=re.compile("Prepare WhatsApp")).click()
+    page.wait_for_function("() => Boolean(window.__openedWhatsApp)")
+    # The popup is intercepted in-browser, so tests do not contact WhatsApp.
+    assert page.evaluate("window.__openedWhatsApp").startswith("https://wa.me/")
