@@ -1,0 +1,56 @@
+name: Build and test
+on:
+  push:
+    branches: [main, 'feature/**']
+  pull_request:
+  workflow_dispatch:
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    env:
+      TEST_ENV: ci
+      BASE_URL: http://127.0.0.1:8000
+      WHATSAPP_NUMBER: '60123456789'
+      DJANGO_DEBUG: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Poetry
+        run: pip install 'poetry>=2,<3'
+      - name: Install Python dependencies
+        run: poetry install --no-interaction
+      - name: Install Chromium
+        run: poetry run playwright install --with-deps chromium
+      - name: Install frontend
+        run: npm ci --prefix frontend
+      - name: Build frontend
+        run: npm run build --prefix frontend
+      - name: Start Django
+        run: |
+          poetry run python backend/manage.py runserver 127.0.0.1:8000 --noreload > /tmp/django.log 2>&1 &
+          echo $! > /tmp/django.pid
+      - name: Wait for backend
+        run: |
+          for i in $(seq 1 40); do curl -fsS http://127.0.0.1:8000/api/health/ && break || sleep 1; done
+      - name: Run API and unit tests
+        run: poetry run pytest tests/api tests/unit --junitxml=artifacts/unit-junit.xml
+      - name: Run Playwright E2E with recordings
+        run: |
+          mkdir -p artifacts/screenshots artifacts/videos artifacts/traces
+          poetry run pytest tests/e2e --browser chromium --tracing on --video on --screenshot only-on-failure --output artifacts/playwright --junitxml=artifacts/e2e-junit.xml --html=artifacts/report.html --self-contained-html
+      - name: Upload test evidence (also when failed)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-evidence
+          path: |
+            artifacts/
+            /tmp/django.log
+          if-no-files-found: warn

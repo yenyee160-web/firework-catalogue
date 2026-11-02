@@ -1,0 +1,74 @@
+[
+  {
+    "id": "starlight-fountain",
+    "name": "Starlight Fountain",
+    "category": "Fountains",
+    "description": "Colourful fountain display (fictional sample).",
+    "price_sen": 3990,
+    "available": true,
+    "icon": "✨"
+  },
+  {
+    "id": "golden-spark",
+    "name": "Golden Spark",
+    "category": "Sparklers",
+    "description": "Celebration sparkle effect (fictional sample).",
+    "price_sen": 1890,
+    "available": true,
+    "icon": "🌟"
+  },
+  {
+    "id": "party-glow",
+    "name": "Party Glow",
+    "category": "Novelties",
+    "description": "Bright party atmosphere (fictional sample).",
+    "price_sen": 2500,
+    "available": true,
+    "icon": "🎉"
+  },
+  {
+    "id": "silver-rain",
+    "name": "Silver Rain",
+    "category": "Fountains",
+    "description": "Elegant sparkling fountain (fictional sample).",
+    "price_sen": 4500,
+    "available": true,
+    "icon": "🌠"
+  },
+  {
+    "id": "midnight-bloom",
+    "name": "Midnight Bloom",
+    "category": "Fountains",
+    "description": "Evening display effect (fictional sample).",
+    "price_sen": 6500,
+    "available": true,
+    "icon": "🌺"
+  },
+  {
+    "id": "celebration-spark",
+    "name": "Celebration Spark",
+    "category": "Sparklers",
+    "description": "A festive touch (fictional sample).",
+    "price_sen": 1200,
+    "available": true,
+    "icon": "🎇"
+  },
+  {
+    "id": "festival-colours",
+    "name": "Festival Colours",
+    "category": "Novelties",
+    "description": "Colourful party effect (fictional sample).",
+    "price_sen": 2990,
+    "available": true,
+    "icon": "🎊"
+  },
+  {
+    "id": "aurora-show",
+    "name": "Aurora Show",
+    "category": "Special",
+    "description": "Sample item temporarily unavailable.",
+    "price_sen": 9900,
+    "available": false,
+    "icon": "🌌"
+  }
+]
