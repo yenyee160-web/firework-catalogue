@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TEST_ENV: ci
-      BASE_URL: http://127.0.0.1:5173
+      BASE_URL: http://127.0.0.1:8000
       WHATSAPP_NUMBER: '60123456789'
       DJANGO_DEBUG: '1'
     steps:
